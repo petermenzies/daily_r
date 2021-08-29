@@ -1,8 +1,13 @@
-library(tidyverse)
+## daily_r challenge 3: create a function that takes a string and outputs all possible combinations of those characters
+## Bonus challenge - return only english words (at least those found in an r package dictionary)
 
-# Bonus function that will find the number of permutations of the elements in a given vector
-# Even those with duplicate elements (the reason it was necessary for my method)
-# Created to provide the proper stopping point for my while-loop below without cluttering it up ----
+library(tidyverse)
+library(qdapDictionaries)
+
+# Below is an extra function that will find the number of permutations of the 
+# elements in a given vector - even those with duplicate elements
+# Created to provide the proper stopping point for my while-loop for the actual challenge 
+# without cluttering it up ----
 
 num_permuatation <- function(value) {
   
@@ -10,15 +15,15 @@ num_permuatation <- function(value) {
   
   unique_val <- unique(value)
   
-# iterating through the unique values in our vector so that the instances of each 
-# character in the original vector are only evaluated once
+# iterating through the unique values in our vector so that the instances of each
+# character in the original vector are only evaluated once ----
   
 # gregexpr() looks for i in value and outputs a list representing indices in value 
 # where i was not present with a -1 and where it was, with a 1. reagmatches() then 
 # replaces the 1's with i and removes all the -1's. lengths() then outputs a vector
 # with 1's in place of the i values and zeroes elsewhere. We take the sum of that 
 # and add that number (num) to our char_repeats vector. 
-# Surely this is the worst possible way to do this...but it works
+# Surely this is the worst possible way to do this...but it works ----
   
   for (i in unique_val) {
     
@@ -47,7 +52,7 @@ num_permuatation <- function(value) {
 
 # Function that takes a string and outputs a vector containing all possible anagrams
 
-anagramr <- function(string) {
+anagramr_dict <- function(string) {
   
   string <- tolower(string)
   
@@ -73,7 +78,7 @@ anagramr <- function(string) {
     
     new_gram <- paste(string_vec[rand_index], collapse = "")
     
-    if (!new_gram %in% anagram_vec){
+    if ((!new_gram %in% anagram_vec)){
       
       anagram_vec <- append(anagram_vec, new_gram)
       
@@ -81,7 +86,21 @@ anagramr <- function(string) {
     
   }
   
-  return(anagram_vec)
+  word_vec <- vector(mode = "character")
+  
+  # loop that looks for words found in GradyAugmented (from the qdapDictionaries package) in anagram_vec
+  
+  for (i in anagram_vec){
+  
+    if (i %in% GradyAugmented){
+      
+      word_vec <- append(word_vec, i)
+      
+    }
+    
+  }
+  
+  return(word_vec)
   
 }
 
