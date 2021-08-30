@@ -11,8 +11,6 @@ palindromer <- function(pal) {
   
   pal_vec <- vector(mode = "character")
   
-  # if ((length(pal_vec) %% 2 != )
-  
   for (character in pal_split) {
     pal_vec <- append(pal_vec, character)
 
